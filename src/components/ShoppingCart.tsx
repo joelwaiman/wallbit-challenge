@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import image from '../../assets/cart.png'
 import { Product } from "../type";
+import { Toaster } from "react-hot-toast";
 
 type ShoppingCartProps = {
   products: Product[];
@@ -11,7 +12,6 @@ type ShoppingCartProps = {
 export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
 
   const [cartCreationDate, setCartCreationDate] = useState<string | null>(null);
-
 
   useEffect(() => {
     if (products.length > 0 && cartCreationDate === null) {
@@ -24,6 +24,12 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
 
   const totalAmount = products.reduce((acc, product) => acc + product.qty * product.price, 0);
 
+  const handleDelete = async (id: number) => {
+    document.startViewTransition(async () => {
+      await deleteItem(id);
+    });
+  };
+
   return (
     <>
       {products.length > 0 ? (
@@ -33,11 +39,16 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
               Cart was created: {cartCreationDate}
             </span>
           )}
+
           <div className="flex flex-shrink-0 justify-between items-center py-4 rounded-md shadow-md">
             <p className="font-bold text-xl">Products in cart: {products.length}</p>
             <p className="font-bold text-xl mr-2">Total: ${totalAmount.toFixed(2)}</p>
           </div>
-          <ul className="flex flex-col mb-11 max-h-[65vh] gap-2 overflow-y-auto pr-2">
+
+          <Toaster position="top-right"
+            reverseOrder={false} />
+
+          <ul className="flex flex-col max-w-full mb-11 max-h-[65vh] gap-2 overflow-y-auto pr-2">
             {products.map((product) => (
               <li
                 className="relative flex rounded-xl bg-[#F7F7F7] p-4 shadow-md"
@@ -64,7 +75,7 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
                       </span>
                     </div>
                     <button
-                      onClick={() => deleteItem(product.id)}
+                      onClick={() => handleDelete(product.id)}
                       className="absolute right-4 bottom-3 rounded-full p-2"
                     >
                       <svg
@@ -86,8 +97,8 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
         <>
           <img className="mt-20"
             src={image}
-            alt="Empty Cart"/>
-            <p className="text-2xl font-semibold text-sky-500 mb-20">Your cart is empty</p>
+            alt="Empty Cart" />
+          <p className="text-2xl font-semibold text-sky-500 mb-20">Your cart is empty</p>
         </>
       )}
     </>
