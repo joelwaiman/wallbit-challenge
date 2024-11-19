@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+
+import image from '../../assets/cart.png'
 import { Product } from "../type";
 
 type ShoppingCartProps = {
@@ -33,12 +35,12 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
           )}
           <div className="flex flex-shrink-0 justify-between items-center py-4 rounded-md shadow-md">
             <p className="font-bold text-xl">Products in cart: {products.length}</p>
-            <p className="font-bold text-xl">Total: ${totalAmount.toFixed(2)}</p>
+            <p className="font-bold text-xl mr-2">Total: ${totalAmount.toFixed(2)}</p>
           </div>
-          <ul className="flex flex-col mb-11 max-h-[65vh] gap-2 overflow-y-auto pr-2 scroll-">
+          <ul className="flex flex-col mb-11 max-h-[65vh] gap-2 overflow-y-auto pr-2">
             {products.map((product) => (
               <li
-                className="relative flex rounded-xl bg-white p-4 shadow-md"
+                className="relative flex rounded-xl bg-[#F7F7F7] p-4 shadow-md"
                 key={product.id}
               >
                 <div className="flex gap-6">
@@ -46,27 +48,27 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
                     <img
                       src={product.image}
                       alt={product.title}
-                      className="h-32 aspect-auto w-32 rounded-lg object-contain transition-transform group-hover:scale-105"
+                      className="h-32 aspect-auto w-32 mix-blend-multiply rounded-lg object-contain transition-transform group-hover:scale-105"
                     />
                   </div>
-                    <div className="flex flex-col justify-between space-y-2">
-                      <h3 className="font-medium text-gray-900 text-2xl line-clamp-2">
-                        {product.title}
-                      </h3>
-                      <div className="flex flex-col space-y-1 font-medium text-lg">
-                        <span className="text-red-600">
-                          Quantity: {product.qty}
-                        </span>
-                        <span className="text-emerald-600">
-                          Price: {product.price}
-                        </span>
+                  <div className="flex flex-col justify-between space-y-2">
+                    <h3 className="font-medium text-gray-900 text-2xl line-clamp-2">
+                      {product.title}
+                    </h3>
+                    <div className="flex flex-col space-y-1 font-medium text-lg">
+                      <span className="text-red-600">
+                        Quantity: {product.qty}
+                      </span>
+                      <span className="text-emerald-600">
+                        Price: {product.price}
+                      </span>
                     </div>
                     <button
                       onClick={() => deleteItem(product.id)}
-                      className="absolute right-4 bottom-4 rounded-full p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                      className="absolute right-4 bottom-3 rounded-full p-2"
                     >
                       <svg
-                        className="fill-red-500"
+                        className="fill-red-500 hover:scale-[1.100] transition-all ease-linear"
                         xmlns="http://www.w3.org/2000/svg"
                         width="30"
                         height="30"
@@ -81,7 +83,12 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
           </ul>
         </div>
       ) : (
-        <p>Empty Cart</p>
+        <>
+          <img className="mt-20"
+            src={image}
+            alt="Empty Cart"/>
+            <p className="text-2xl font-semibold text-sky-500 mb-20">Your cart is empty</p>
+        </>
       )}
     </>
   );

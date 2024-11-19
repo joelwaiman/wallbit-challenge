@@ -37,7 +37,7 @@ export const AddToCart = ({ addProduct }: AddToCartProps) => {
 
   return (
     <div className="flex flex-col items-center gap-10 backdrop-blur-md backdrop-filter rounded-2xl lg:w-2/3">
-      <h1 className="font-medium text-3xl">Add a product</h1>
+      <h1 className="font-medium text-3xl">Enter a Product</h1>
       <form className="flex gap-4 justify-center text-black" onSubmit={getProduct}>
         <input className="p-3 rounded-xl w-1/5"
           value={qty}
