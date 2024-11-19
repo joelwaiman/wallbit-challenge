@@ -19,6 +19,6 @@ $ npm run dev
 
 ## Deploy
 
-(https://wallbit-challenge-nine.vercel.app/)
+https://wallbit-challenge-nine.vercel.app/
 
-https://pbs.twimg.com/media/GM5bq0qWkAAwVpv.png
+![Dream](./assets/zz.jpg)
