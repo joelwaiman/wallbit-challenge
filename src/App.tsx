@@ -4,22 +4,17 @@ import { ShoppingCart } from "./components/ShoppingCart"
 import { Product } from "./type";
 
 function App() {
-
-  const [products, setProducts] = useState<Product[]>([]);
-
-  useEffect(() => {
+  const [products, setProducts] = useState<Product[]>(() => {
+      // Inicializar el estado con los productos almacenados en localStorage
     const storedProducts = localStorage.getItem('products');
-    if (storedProducts) {
-      const parsedProducts = JSON.parse(storedProducts)
-      setProducts(parsedProducts)
-    }
-  }, [])
+    return storedProducts ? JSON.parse(storedProducts) : [];
+  });
 
   useEffect(() => {
     if (products.length > 0) {
       localStorage.setItem('products', JSON.stringify(products));
-    } else{
-      localStorage.removeItem('products')
+    } else {
+      localStorage.removeItem('products');
     }
   }, [products]);
 

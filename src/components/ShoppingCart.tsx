@@ -16,17 +16,18 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
   });
   
   useEffect(() => {
-    if (products.length > 0 && cartCreationDate === null) {
+    if (products.length > 0 && !cartCreationDate) {
       const newDate = new Date().toLocaleString("en-us");
       setCartCreationDate(newDate);
       localStorage.setItem("cartCreationDate", newDate);
     }
   
-    if (products.length === 0) {
+    if (products.length === 0 && cartCreationDate) {
       setCartCreationDate(null);
       localStorage.removeItem("cartCreationDate");
     }
   }, [products, cartCreationDate]);
+  
   
 
   const totalAmount = products.reduce((acc, product) => acc + product.qty * product.price, 0);
