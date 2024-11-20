@@ -46,7 +46,7 @@ function App() {
 
   return (
     <main className="flex flex-col gap-10 items-center min-h-screen max-w-[95%] m-auto">
-      <h1 className="font-bold text-7xl my-10 text-center">Wallbit Shop</h1>
+      <h1 className="font-bold text-7xl mt-10 text-center">Wallbit Shop</h1>
       <AddToCart addProduct={addProduct} />
       <ShoppingCart products={products} deleteItem={deleteItem}/>
     </main>

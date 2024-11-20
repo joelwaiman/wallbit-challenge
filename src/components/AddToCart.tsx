@@ -11,7 +11,7 @@ export const AddToCart = ({ addProduct }: AddToCartProps) => {
   const [qty, setQty] = useState<string>("");
   const [idProduct, setIdProduct] = useState<number | undefined>();
   const [errorMenssage, setErrorMenssage] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false); // Estado para controlar el loader
+  const [loading, setLoading] = useState<boolean>(false);
 
   const getProduct = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,27 +25,27 @@ export const AddToCart = ({ addProduct }: AddToCartProps) => {
       return setErrorMenssage("Invalid quantity");
     }
 
-    setLoading(true); // Activar loader
+    setLoading(true);
     try {
       const newProduct = await getSingleProduct(idProduct);
       if (newProduct) {
-        document.startViewTransition(() => {
+        document?.startViewTransition(() => {
           addProduct(newProduct, quantity);
         });
 
-        setQty("1");
+        setQty("");
         setIdProduct(undefined);
         toast.success("Added product!");
       }
     } catch (error: any) {
       setErrorMenssage(error.message || "Error getting the product");
     } finally {
-      setLoading(false); // Desactivar loader
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex flex-col items-center gap-10 backdrop-blur-md backdrop-filter rounded-2xl lg:w-2/3">
+    <div className="flex flex-col h-[15vh] items-center gap-10 backdrop-blur-md backdrop-filter rounded-2xl lg:w-2/3">
       <h1 className="font-medium text-3xl">Enter a Product</h1>
       <form className="flex gap-4 justify-center text-black" onSubmit={getProduct}>
         <input
@@ -56,7 +56,7 @@ export const AddToCart = ({ addProduct }: AddToCartProps) => {
             setErrorMenssage("");
           }}
           placeholder="Quantity"
-          disabled={loading} // Desactivar input si está cargando
+          disabled={loading}
         />
         <input
           className="p-3 rounded-xl w-3/5"

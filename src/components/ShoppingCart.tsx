@@ -11,21 +11,28 @@ type ShoppingCartProps = {
 
 export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
 
-  const [cartCreationDate, setCartCreationDate] = useState<string | null>(null);
-
+  const [cartCreationDate, setCartCreationDate] = useState<string | null>(() => {
+    return localStorage.getItem("cartCreationDate");
+  });
+  
   useEffect(() => {
     if (products.length > 0 && cartCreationDate === null) {
-      setCartCreationDate(new Date().toLocaleString("en-us"))
+      const newDate = new Date().toLocaleString("en-us");
+      setCartCreationDate(newDate);
+      localStorage.setItem("cartCreationDate", newDate);
     }
+  
     if (products.length === 0) {
-      setCartCreationDate(null)
+      setCartCreationDate(null);
+      localStorage.removeItem("cartCreationDate");
     }
-  }, [products, cartCreationDate])
+  }, [products, cartCreationDate]);
+  
 
   const totalAmount = products.reduce((acc, product) => acc + product.qty * product.price, 0);
 
   const handleDelete = async (id: number) => {
-    document.startViewTransition(async () => {
+    document?.startViewTransition(async () => {
       await deleteItem(id);
     });
   };
@@ -33,14 +40,14 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
   return (
     <>
       {products.length > 0 ? (
-        <div className="flex flex-col gap-5 lg:w-2/3 overflow-hidden">
+        <div className="flex flex-col gap-5 max-h-[65vh] lg:w-2/3 overflow-hidden">
           {cartCreationDate && (
             <span className="bg-[#2185D5] p-1 text-center rounded-md">
               Cart was created: {cartCreationDate}
             </span>
           )}
 
-          <div className="flex flex-shrink-0 justify-between items-center py-4 rounded-md shadow-md">
+          <div className="flex flex-shrink-0 justify-between items-center py-4 rounded-md">
             <p className="font-bold text-xl">Products in cart: {products.length}</p>
             <p className="font-bold text-xl mr-2">Total: ${totalAmount.toFixed(2)}</p>
           </div>
@@ -48,10 +55,10 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
           <Toaster position="top-right"
             reverseOrder={false} />
 
-          <ul className="flex flex-col max-w-full mb-11 max-h-[65vh] gap-2 overflow-y-auto pr-2">
+          <ul className="flex flex-col flex-grow rounded-xl bg-neutral-900 max-w-full mb-10 overflow-y-auto pr-2">
             {products.map((product) => (
               <li
-                className="relative flex rounded-xl bg-[#F7F7F7] p-4 shadow-md"
+                className="relative flex border-b border-gray-500 text-[#F7F7F7] p-4 last:border-b-0"
                 key={product.id}
               >
                 <div className="flex gap-6">
@@ -59,27 +66,27 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
                     <img
                       src={product.image}
                       alt={product.title}
-                      className="h-32 aspect-auto w-32 mix-blend-multiply rounded-lg object-contain transition-transform group-hover:scale-105"
+                      className="h-32 aspect-auto w-32 rounded-lg object-contain transition-transform group-hover:scale-105"
                     />
                   </div>
-                  <div className="flex flex-col justify-between space-y-2">
-                    <h3 className="font-medium text-gray-900 text-2xl line-clamp-2">
+                  <div className="flex flex-col space-y-2 gap-2">
+                    <h3 className="font-medium text-2xl line-clamp-2">
                       {product.title}
                     </h3>
-                    <div className="flex flex-col space-y-1 font-medium text-lg">
-                      <span className="text-red-600">
-                        Quantity: {product.qty}
+                    <div className="flex flex-wrap gap-2">
+                      <span className="inline-flex items-center rounded-full border border-[#2185D5] px-2.5 py-0.5 text-xs font-semibold text-[#3ea5fa]">
+                        Cantidad: {product.qty}
                       </span>
-                      <span className="text-emerald-600">
-                        Price: {product.price}
+                      <span className="inline-flex rounded-full border border-green-500 px-2.5 py-0.5 text-xs font-semibold text-green-300">
+                        Precio: ${product.price.toFixed(2)}
                       </span>
                     </div>
                     <button
                       onClick={() => handleDelete(product.id)}
-                      className="absolute right-4 bottom-3 rounded-full p-2"
+                      className="absolute right-4 top-2 rounded-full p-2"
                     >
                       <svg
-                        className="fill-red-500 hover:scale-[1.100] transition-all ease-linear"
+                        className="fill-gray-400 hover:scale-[1.100] hover:fill-red-500 transition-all ease-linear"
                         xmlns="http://www.w3.org/2000/svg"
                         width="30"
                         height="30"
