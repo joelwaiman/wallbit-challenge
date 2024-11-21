@@ -14,21 +14,21 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
   const [cartCreationDate, setCartCreationDate] = useState<string | null>(() => {
     return localStorage.getItem("cartCreationDate");
   });
-  
+
   useEffect(() => {
     if (products.length > 0 && !cartCreationDate) {
       const newDate = new Date().toLocaleString("en-us");
       setCartCreationDate(newDate);
       localStorage.setItem("cartCreationDate", newDate);
     }
-  
+
     if (products.length === 0 && cartCreationDate) {
       setCartCreationDate(null);
       localStorage.removeItem("cartCreationDate");
     }
   }, [products, cartCreationDate]);
-  
-  
+
+
 
   const totalAmount = products.reduce((acc, product) => acc + product.qty * product.price, 0);
 
@@ -41,25 +41,25 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
   return (
     <>
       {products.length > 0 ? (
-        <div className="flex flex-col gap-5 max-h-[65vh] lg:w-2/3 overflow-hidden">
+        <div className="flex flex-col gap-5 max-h-[65vh] lg:w-2/3 overflow-hidden px-2">
           {cartCreationDate && (
-            <span className="bg-[#2185D5] p-1 text-center rounded-md">
+            <span className="bg-[#0092CA] p-1 text-center rounded-md">
               Cart was created: {cartCreationDate}
             </span>
           )}
 
-          <div className="flex flex-shrink-0 justify-between items-center py-4 rounded-md">
+          <div className="flex flex-shrink-0 justify-between items-center rounded-md">
             <p className="font-bold text-xl">Products in cart: {products.length}</p>
-            <p className="font-bold text-xl mr-2">Total: ${totalAmount.toFixed(2)}</p>
+            <p className="font-bold text-xl">Total: ${totalAmount.toFixed(2)}</p>
           </div>
 
           <Toaster position="top-right"
             reverseOrder={false} />
 
-          <ul className="flex flex-col flex-grow rounded-xl bg-neutral-900 max-w-full mb-10 overflow-y-auto pr-2">
+          <ul className="flex flex-col flex-grow rounded-xl gap-2 max-w-full mb-10 overflow-y-auto px-2">
             {products.map((product) => (
               <li
-                className="relative flex border-b border-gray-500 text-[#F7F7F7] p-4 last:border-b-0"
+                className="relative flex border-2 border-[#393E46] text-[#EEEEEE] rounded-md p-4 hover:border-gray-400 hover:border-3 transition-colors duration-300"
                 key={product.id}
               >
                 <div className="flex gap-6">
@@ -71,14 +71,14 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
                     />
                   </div>
                   <div className="flex flex-col space-y-2 gap-2">
-                    <h3 className="font-medium text-2xl line-clamp-2">
+                    <h3 className="font-medium text-2xl line-clamp-2 px-2.5 max-w-[90%]">
                       {product.title}
                     </h3>
                     <div className="flex flex-wrap gap-2">
-                      <span className="inline-flex items-center rounded-full border border-[#2185D5] px-2.5 py-0.5 text-xs font-semibold text-[#3ea5fa]">
+                      <span className="inline-flex bg-[#222831] rounded-lg px-2.5 py-1 text-sm font-semibold">
                         Cantidad: {product.qty}
                       </span>
-                      <span className="inline-flex rounded-full border border-green-500 px-2.5 py-0.5 text-xs font-semibold text-green-300">
+                      <span className="inline-flex bg-[#222831] rounded-lg px-2.5 py-1 text-sm font-semibold">
                         Precio: ${product.price.toFixed(2)}
                       </span>
                     </div>
@@ -102,12 +102,12 @@ export const ShoppingCart = ({ products, deleteItem }: ShoppingCartProps) => {
           </ul>
         </div>
       ) : (
-        <>
-          <img className="mt-20"
+        <div className="flex flex-col items-center h-full gap-5 opacity-50">
+          <img className="min-h-80"
             src={image}
             alt="Empty Cart" />
-          <p className="text-2xl font-semibold text-sky-500 mb-20">Your cart is empty</p>
-        </>
+          <p className="text-2xl font-medium text-[#EEEEEE]">Your cart is empty</p>
+        </div>
       )}
     </>
   );

@@ -45,11 +45,11 @@ export const AddToCart = ({ addProduct }: AddToCartProps) => {
   };
 
   return (
-    <div className="flex flex-col h-[15vh] items-center gap-10 backdrop-blur-md backdrop-filter rounded-2xl lg:w-2/3">
+    <div className="relative flex flex-col h-[15vh] items-center gap-5 backdrop-blur-md backdrop-filter rounded-2xl lg:w-2/3">
       <h1 className="font-medium text-3xl">Enter a Product</h1>
-      <form className="flex gap-4 justify-center text-black" onSubmit={getProduct}>
+      <form className="flex gap-4 justify-center" onSubmit={getProduct}>
         <input
-          className="p-3 rounded-xl w-1/5"
+          className="p-3 rounded-xl w-1/5 bg-transparent border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0092CA]"
           value={qty}
           onChange={(e) => {
             setQty(e.target.value);
@@ -59,7 +59,7 @@ export const AddToCart = ({ addProduct }: AddToCartProps) => {
           disabled={loading}
         />
         <input
-          className="p-3 rounded-xl w-3/5"
+          className="p-3 rounded-xl w-3/5 bg-transparent border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#0092CA]"
           type="number"
           value={idProduct || ""}
           onChange={(e) => {
@@ -70,12 +70,12 @@ export const AddToCart = ({ addProduct }: AddToCartProps) => {
           disabled={loading}
         />
         <button
-          className="p-5 rounded-xl bg-[#2185D5] text-[#F7F7F7] font-semibold w-1/5 flex items-center justify-center"
+          className="px-1 py-2 rounded-xl bg-[#0092CA] text-[#EEEEEE] text-xl w-1/5 flex items-center justify-center"
           type="submit"
           disabled={loading}
         >
           {loading ? (
-            <div className="loader border-t-2 border-white rounded-full w-6 h-6 animate-spin"></div>
+            <div className="loader border-t-2 border-[#EEEEEE] rounded-full w-6 h-6 animate-spin"></div>
           ) : (
             "Add"
           )}
