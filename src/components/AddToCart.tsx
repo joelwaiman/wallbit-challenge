@@ -66,7 +66,7 @@ export const AddToCart = ({ addProduct }: AddToCartProps) => {
             setIdProduct(Number(e.target.value));
             setErrorMenssage("");
           }}
-          placeholder="Product ID"
+          placeholder="Product ID (1 to 20)"
           disabled={loading}
         />
         <button
